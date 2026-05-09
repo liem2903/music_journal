@@ -13,7 +13,9 @@ const servers = [
 let current = 0
 
 http.createServer((req, res) => {
-  const target = servers[current % servers.length]
-  current++
-  proxy.web(req, res, { target })
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
+
+    const target = servers[current % servers.length]
+    current++
+    proxy.web(req, res, { target })
 }).listen(process.env.PORT)
