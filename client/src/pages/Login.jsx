@@ -1,11 +1,21 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios.js";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ errorMessage, setErrorMessage ] = useState("");
     const navigate = useNavigate();
+
+    const handleLogin = async () => {
+        try {
+            await api.post("/login", {password, email}).then(navigate("/"));
+        } catch (err) {
+            setErrorMessage(err.response.data.message);
+        }
+    }
 
     return (
         <div className="min-h-screen bg-[#1c1410] flex items-center justify-center p-4">
